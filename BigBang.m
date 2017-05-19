@@ -1,9 +1,8 @@
 //
 //  BigBang.m
-//  WXSRuntime
 //
 //  Created by jsb-xiakj on 2017/5/18.
-//  Copyright © 2017年 王小树. All rights reserved.
+//  Copyright © 2017年 xiakejie. All rights reserved.
 //
 
 #import "BigBang.h"

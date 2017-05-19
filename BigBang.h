@@ -1,9 +1,8 @@
 //
 //  BigBang.h
-//  WXSRuntime
 //
 //  Created by jsb-xiakj on 2017/5/18.
-//  Copyright © 2017年 王小树. All rights reserved.
+//  Copyright © 2017年 xaikejie. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
