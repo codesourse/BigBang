@@ -6,4 +6,4 @@
 
 [BigBang hookClass:@"A_ManageViewController"];
 
-![avatar](iInjection逆向交流群群二维码.png)  
+![avatar](B0EEAE8F-5C95-4556-9848-B2072CAA1D96.png)  
