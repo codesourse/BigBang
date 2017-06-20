@@ -1,8 +1,9 @@
 //
 //  BigBang.m
+//  WXSRuntime
 //
 //  Created by jsb-xiakj on 2017/5/18.
-//  Copyright © 2017年 xiakejie. All rights reserved.
+//  Copyright © 2017年 王小树. All rights reserved.
 //
 
 #import "BigBang.h"
@@ -39,19 +40,23 @@ return @(val); \
         }
         //过滤系统的隐藏函数
         NSString *selString=NSStringFromSelector(methodSel);
-        if ([selString hasPrefix:@"."]||[selString containsString:@"dealloc"]) {
+        
+        NSString *fuctionString =  @".cxx_destruct|dealloc|_isDeallocating|release|autorelease|retain|Retain|_tryRetain|copy|nsis_descriptionOfVariable:|respondsToSelector:|class|methodSignatureForSelector:|allowsWeakReference|etainWeakReference|init";
+        
+        if ([selString hasPrefix:@"."]||[fuctionString containsString:selString]) {
             continue;
         }
         NSString *hookedName = [BigBang methodLogMethodName:selString];
+        // printf("%s:%s\n",[hookString UTF8String],[hookedName UTF8String]);
         class_addMethod(hookClass, NSSelectorFromString(hookedName), imp, typeEncoding);
         //将旧地址指向forward invocaton
         class_replaceMethod(hookClass, methodSel, [BigBang getMsgForwardIMP:hookClass sel:methodSel], typeEncoding);
     }
     
     IMP forwardInvocationImpl = imp_implementationWithBlock(^(id object, NSInvocation *invocation) {
+        //NSLog(@"hookString=%@",hookString);
         NSString *newSelectorName = [BigBang methodLogMethodName:NSStringFromSelector(invocation.selector)];
         invocation.selector = NSSelectorFromString(newSelectorName);
-        [invocation invoke];
         @try {
             NSString *objString=[NSString stringWithFormat:@"%@",object];
             NSUInteger number = invocation.methodSignature.numberOfArguments;
@@ -78,16 +83,17 @@ return @(val); \
         } @finally {
             
         }
-        
+
+        [invocation invoke];
     });
     class_addMethod(hookClass, @selector(forwardInvocation:), forwardInvocationImpl, "v@:@");
     free(methods);
-    NSString *superClassString = NSStringFromClass(object_getClass(hookClass));
-    if (![superClassString isEqualToString:hookString]) {
-        if (!class_isMetaClass(hookClass)) {
-            [BigBang hookClass:superClassString];
-        }
-    }
+//    NSString *superClassString = NSStringFromClass(object_getClass(hookClass));
+//    if (![superClassString isEqualToString:hookString]) {
+//        if (!class_isMetaClass(hookClass)) {
+//            [BigBang hookClass:superClassString];
+//        }
+//    }
 }
 
 + (id)argumentAtIndex:(NSUInteger)index
@@ -208,7 +214,7 @@ return @(val); \
 
 
 + (NSString *)methodLogMethodName:(NSString *)selName {
-    return [BIGBANG stringByAppendingString:selName];
+    return [BIGBANG stringByAppendingFormat:@"%@",selName];
 }
 
 + (IMP)getMsgForwardIMP:(Class)logedClass sel:(SEL)selector {
