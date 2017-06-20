@@ -88,12 +88,12 @@ return @(val); \
     });
     class_addMethod(hookClass, @selector(forwardInvocation:), forwardInvocationImpl, "v@:@");
     free(methods);
-//    NSString *superClassString = NSStringFromClass(object_getClass(hookClass));
-//    if (![superClassString isEqualToString:hookString]) {
-//        if (!class_isMetaClass(hookClass)) {
-//            [BigBang hookClass:superClassString];
-//        }
-//    }
+    NSString *superClassString = NSStringFromClass(object_getClass(hookClass));
+    if (![superClassString isEqualToString:hookString]) {
+        if (!class_isMetaClass(hookClass)) {
+            [BigBang hookClass:superClassString];
+        }
+    }
 }
 
 + (id)argumentAtIndex:(NSUInteger)index
