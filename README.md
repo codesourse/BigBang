@@ -5,15 +5,22 @@
 使用方法
 
 [BigBang hookClass:@"A_ManageViewController"];
+
 常规使用：
+
 放在只执行一次的函数里，防止多次勾一个函数
 如
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 hook：
+
 __attribute__((constructor)) static void entry()
+
 放这里面
+
 打日志的printf 改成 nslog
+
 在终端那个应用里面就能看到日志
 
 
