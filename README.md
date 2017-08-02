@@ -4,11 +4,11 @@
 | 不加之前 | 0.000459s/20000次 |
 | 加之后 | 0.002s/20000次 |
 
-| Tables        | Are           | Cool  |
+| 状态        | 平均耗时           | 次数  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| 不加之前     | 0.000459s | 20000次 |
+| 加之后      | 0.002s      |   20000次 |
+
 
 作者：Te_Lee
 链接：http://www.jianshu.com/p/1e402922ee32/
