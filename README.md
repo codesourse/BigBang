@@ -5,8 +5,38 @@
 
 | 状态            | 平均耗时       | 次数    |
 | -------------  |:-------------:| -----:|
-| 不加之前        | 0.000459s     | 20000次 |
-| 加之后          | 0.002s        | 20000次 |
+| 不加之前        | 0.000213s     | 20000次 |
+| 函数副本方法     | 0.000579s      | 20000次 |
+| 存IMP指针方法    | 0.000216s     | 20000次 |
+
+不同设备之间会存在差异
+
+函数副本方法：
+
+所有方法都加上 BigBang_前缀
+副本方法IMP指针使用原方法的
+
+存IMP指针方法
+
+将IMP指针转成long 存入字典中
+
+```objc
+        //缓存
+        _IMP imp = method_getImplementation(method);
+        
+        NSNumber *pNumber = [NSNumber numberWithLong:(long)imp];
+        
+        [impDict setObject:pNumber forKey:NSStringFromSelector(methodSel)];
+        
+        //使用
+        NSNumber *pNumber = [impDict objectForKey:NSStringFromSelector(invocation.selector)];
+        
+        long *p = (long *)[pNumber longValue];
+        
+        _IMP imp = (_IMP)p;
+        
+        [invocation invokeUsingIMP:imp];
+```
 
 
 勾某个类的所有方法的，查看所有方法的执行顺序
